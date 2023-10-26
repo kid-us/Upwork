@@ -1,1 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+    <script src="sweetalert2.all.min.js"></script>
+  </head>
+
+  <style>
+    /* Hide Items */
+    .hidden {
+      display: none;
+    }
+
+    /* Language Container */
+    .language-container {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      background-color: #ffffff;
+      width: 100%;
+      box-shadow: 3px 6px 20px #000;
+      border-radius: 5px;
+      padding: 5px 0px;
+    }
+
+    /* Loading */
+    .loader {
+      position: absolute;
+      top: -2.7em;
+      right: 0.5em;
+      border: 5px solid #656565;
+      border-radius: 50%;
+      border-top: 5px solid #3498db;
+      width: 20px;
+      height: 20px;
+      -webkit-animation: spin 1s linear infinite;
+      animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Language Input */
+    input {
+      cursor: pointer;
+    }
+    /* Language Link */
+    .text-center {
+      text-align: center;
+    }
+
+    .text-decoration-none {
+      text-decoration: none;
+    }
+  </style>
+
+  <body>
+    <h1>Account List</h1>
+
+    <!-- Button Delete message -->
+    <div id="coming-soon"></div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account Name</th>
+            <th>Translation Language</th>
+            <th>Hide Automatically</th>
+            <th>Option</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <form action="#" method="#">
+            <tr>
+              <td>Jon Doe</td>
+              <td>
+                <input
+                  class="language language-form-select loading"
+                  name="language"
+                  placeholder=" Select Language"
+                  readonly
+                  data-num="1"
+                />
+                <div style="position: relative">
+                  <p id="loader-1" class="loader hidden"></p>
+                  <div class="language-container">
+                    <p class="text-center">
+                      <a class="language-link text-decoration-none" href="#"
+                        >English</a
+                      >
+                    </p>
+                    <p class="text-center">
+                      <a class="language-link text-decoration-none" href="#"
+                        >Latin</a
+                      >
+                    </p>
+                    <p class="text-center">
+                      <a class="language-link text-decoration-none" href="#"
+                        >Amharic</a
+                      >
+                    </p>
+                    <p class="text-center">
+                      <a class="language-link text-decoration-none" href="#"
+                        >France</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <select class="hide-form-select w-25" id="hide">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </td>
+
+              <td>
+                <button class="del-btn btn btn-danger">Delete</button>
+              </td>
+
+              <td><button class="btn btn-success">Edit</button></td>
+            </tr>
+          </form>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Account Name</th>
+          <th>Translation Language</th>
+          <th>Hide Automatically</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <form action="#" method="#">
+          <tr>
+            <td>Jon Doe</td>
+            <td>
+              <input
+                class="language language-form-select loading"
+                name="language"
+                placeholder=" Select Language"
+                readonly
+                data-num="1"
+              />
+              <div style="position: relative">
+                <p id="loader-1" class="loader"></p>
+                <div class="language-container hidden">
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >English</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >Latin</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >Amharic</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >France</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <select class="hide-form-select w-25" id="hide">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </td>
+
+            <td><button class="del-btn btn btn-danger">Delete</button></td>
+
+            <td><button class="btn btn-success">Edit</button></td>
+          </tr>
+        </form>
+
+        <form action="#" method="#">
+          <tr>
+            <td>Jon Doe</td>
+            <td>
+              <input
+                class="language language-form-select loading"
+                name="language"
+                placeholder=" Select Language"
+                readonly
+                data-num="2"
+              />
+              <div style="position: relative">
+                <p id="loader-2" class="loader hidden"></p>
+                <div class="language-container hidden">
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >English</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >Latin</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >Amharic</a
+                    >
+                  </p>
+                  <p class="text-center">
+                    <a class="language-link text-decoration-none" href="#"
+                      >France</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <select class="hide-form-select w-25" id="hide">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </td>
+
+            <td><button class="del-btn btn btn-danger">Delete</button></td>
+
+            <td><button class="btn btn-success">Edit</button></td>
+          </tr>
+        </form>
+      </tbody>
+    </table> -->
+
+    <!-- Pagination -->
+    <nav>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
+
+    <script>
+      /* // Delete Message */
+      const gamesContainer = document.querySelectorAll(".del-btn");
+      gamesContainer.forEach((game) => {
+        game.addEventListener("click", () => {
+          Swal.fire({
+            color: "white",
+            background: "#dc3545",
+            position: "top-end",
+            text: "Deleted Successfully",
+            showConfirmButton: false,
+            width: "15em",
+            padding: "0px 0px",
+            timer: 2000,
+          });
+        });
+      });
+
+      //   Language
+      const languageInput = document.querySelectorAll(".language");
+      const languageContainer = document.querySelectorAll(
+        ".language-container"
+      );
+      const languageLink = document.querySelectorAll(".language-link");
+
+      languageInput.forEach((lang) => {
+        lang.addEventListener("click", () => {
+          let num = lang.getAttribute("data-num");
+          let spinner = document.getElementById("loader-" + num);
+          spinner.classList.remove("hidden");
+
+          //   Display Languages
+          const displayLanguages = setTimeout(display, 1000);
+          function display() {
+            languageContainer.forEach((languages) => {
+              spinner.classList.add("hidden");
+              spinner.nextSibling.nextSibling.classList.remove("hidden");
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
 
