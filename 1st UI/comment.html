@@ -1,1 +1,1281 @@
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- <?php
+        global $sap_common;
+
+        $SAP_Mingle_Update = new SAP_Mingle_Update();
+        $license_data = $SAP_Mingle_Update->
+            get_license_data(); if( !$sap_common->sap_is_license_activated() ){
+            $redirection_url = '/mingle-update/'; header('Location: ' . SAP_SITE_URL .
+            $redirection_url ); die(); } //Update user profile $email =
+            $user_details['email']; $id = $user_details['id']; include 'header.php';
+            include 'sidebar.php'; $payment_gateway =
+            explode(',',$this->settings->get_options('payment_gateway')); 
+            
+    ?> -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      .pagination {
+        margin-top: 40px;
+        color: #000;
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        justify-content: end;
+      }
+
+      .page-link {
+        position: relative;
+        display: block;
+        padding: 0.4em 0.575rem;
+        font-size: medium;
+        color: #fff;
+        text-decoration: none;
+        background-color: #2a4f69;
+        border-radius: 4px;
+        border: 1px solid #fff;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+
+      textarea {
+        padding: 0.5rem 0;
+        border-radius: 4px;
+        border: gray 2px solid;
+        width: 100%;
+        padding: 10px 3px;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 0.275rem 0.75rem;
+        font-weight: 400;
+        line-height: 1.5;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), 0.5);
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 3px;
+        margin-right: 4px;
+        font-size: medium;
+      }
+
+      /* Delete Btn */
+
+      .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .text-decoration-none {
+        text-decoration: none;
+      }
+
+      /* Small text */
+      .small {
+        font-size: 12px;
+      }
+
+      /* Bold text */
+      .bold {
+        font-weight: bold;
+        font-size: 17px;
+      }
+      /* Mqrgin */
+      .mb {
+        margin-bottom: 30px;
+      }
+
+      /* Flex */
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .col-3 {
+        flex: 0 0 auto;
+        width: 25%;
+      }
+
+      .col-12 {
+        flex: 0 0 auto;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      @media (min-width: 768px) {
+        .col-md-2 {
+          flex: 0 0 auto;
+          width: 16.66666667%;
+        }
+        .col-lg-4 {
+          flex: 0 0 auto;
+          width: 30%;
+          margin: 0px 8px;
+        }
+      }
+      @media (min-width: 992px) {
+        .col-lg-2 {
+          flex: 0 0 auto;
+          width: 10.66666667%;
+        }
+        .col-lg-3 {
+          flex: 0 0 auto;
+          width: 25%;
+          margin: 0px 8px;
+        }
+
+        .col-lg-4 {
+          flex: 0 0 auto;
+          width: 30%;
+          margin: 0px 8px;
+        }
+      }
+
+      .text-black {
+        text-decoration: underline;
+        color: #000;
+      }
+
+      .comments {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        border-radius: 5px;
+        padding: 30px 20px;
+        width: 100%;
+      }
+
+      .margin-end {
+        margin-right: 30px;
+      }
+
+      .text-blue {
+        color: #fff !important;
+        background-color: blue;
+      }
+
+      .text-green {
+        background-color: #198754;
+        border-color: #198754;
+        color: #fff !important;
+      }
+
+      .btn-green {
+        margin-top: 20px;
+        /* width: 350px; */
+        background-color: #198754;
+        color: #fff;
+      }
+      .hidden {
+        display: none;
+      }
+
+      .overlay {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #0000005e;
+      }
+
+      .comment-modal {
+        width: 85%;
+        height: 80vh;
+        padding-bottom: 30px;
+        padding-left: 50px;
+        padding-right: 50px;
+        position: fixed;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        box-shadow: 2px 4px 6px #000;
+        z-index: 2;
+        overflow: scroll;
+      }
+
+      @media (min-width: 768px) {
+        .comment-modal {
+          width: 50%;
+          height: 80vh;
+          padding-bottom: 30px;
+          padding-left: 50px;
+          padding-right: 50px;
+          position: fixed;
+          top: 45%;
+          left: 60%;
+          transform: translate(-50%, -50%);
+          background: #ffffff;
+          box-shadow: 2px 4px 6px #000;
+          z-index: 2;
+          overflow: scroll;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .comment-modal {
+          width: 60%;
+          height: 80vh;
+          padding-bottom: 30px;
+          padding-left: 50px;
+          padding-right: 50px;
+          position: fixed;
+          top: 45%;
+          left: 55%;
+          transform: translate(-50%, -50%);
+          background: #ffffff;
+          box-shadow: 2px 4px 6px #000;
+          z-index: 2;
+          overflow: scroll;
+        }
+      }
+
+      .reply-container {
+        position: relative;
+        z-index: 20 !important;
+      }
+
+      .reply-modal {
+        width: 85%;
+        padding-bottom: 30px;
+        padding-left: 50px;
+        padding-right: 50px;
+        position: fixed;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        box-shadow: 2px 4px 6px #000;
+        z-index: 2;
+      }
+
+      @media (min-width: 768px) {
+        .reply-modal {
+          width: 50%;
+          padding-bottom: 30px;
+          padding-left: 50px;
+          padding-right: 50px;
+          position: fixed;
+          top: 45%;
+          left: 60%;
+          transform: translate(-50%, -50%);
+          background: #ffffff;
+          box-shadow: 2px 4px 6px #000;
+          z-index: 2;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .reply-modal {
+          width: 60%;
+          padding-bottom: 30px;
+          padding-left: 50px;
+          padding-right: 50px;
+          position: fixed;
+          top: 45%;
+          left: 55%;
+          transform: translate(-50%, -50%);
+          background: #ffffff;
+          box-shadow: 2px 4px 6px #000;
+          z-index: 2;
+        }
+      }
+
+      .comment-wrapper {
+        border: 1px solid #000;
+        border-radius: 6px;
+        margin-top: 40px;
+        padding: 10px;
+      }
+
+      .close-modal-btn {
+        text-align: end;
+        font-size: larger;
+        font-weight: bolder;
+        color: red;
+        cursor: pointer;
+        padding: 20px;
+      }
+
+      .comments-box {
+        display: -webkit-box;
+        max-width: 400px;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 2px 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1 class="bold">Comment Management</h1>
+      </section>
+      <!-- Main content -->
+      <!-- Comment section 1 -->
+      <section class="content sap-my-account">
+        <!-- Review Page -->
+        <div class="comments">
+          <div id="review" class="">
+            <p class="bold">
+              Here you'll find an overview of the comments you've received on
+              you posts and ads.
+            </p>
+            <p class="bold" style="margin-bottom: 20px">
+              <a
+                href="#"
+                class="text-black"
+                style="padding-right: 30px; text-decoration: none"
+                >To Review</a
+              >
+              <a href="#" id="all-tab" class="text-black">All</a>
+            </p>
+
+            <div id="section-1" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="1"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 2 -->
+            <div id="section-2" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="2"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 3 -->
+            <div id="section-3" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="3"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 3 -->
+            <div id="section-4" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="4"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+          </div>
+
+          <div id="all" class="hidden">
+            <p class="bold">All tabs Pages will display here</p>
+            <p class="bold" style="margin-bottom: 20px">
+              <a href="#" id="review-tab" class="text-black">To Rreview</a>
+              <a
+                href="#"
+                class="text-black"
+                style="padding-left: 30px; text-decoration: none"
+                >All</a
+              >
+            </p>
+
+            <div id="section-1" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="1"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 2 -->
+            <div id="section-2" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="2"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 3 -->
+            <div id="section-3" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="3"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Comment section 3 -->
+            <div id="section-4" class="row justify-content-center">
+              <div class="col-lg-2 col-md-2 col-12">
+                <p class="bold" style="margin: 0">Jon Doe</p>
+                <p class="small" style="line-height: 0">On Jun 29</p>
+                <p class="small">Meme</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-12 margin-end">
+                <div class="comments-box">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ratione facere culpa quidem omnis distinctio ipsam
+                    praesentium, pariatur consequuntur eius voluptatem vel atque
+                    id minus dignissimos dicta odit porro ea architecto.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-12" style="margin-top: 15px">
+                <button name="search" class="btn btn-search bi-search"></button>
+
+                <button
+                  name="like"
+                  class="btn btn-like bi-hand-thumbs-up-fill"
+                ></button>
+
+                <button
+                  name="dislike"
+                  class="btn btn-dislike bi-hand-thumbs-down-fill"
+                ></button>
+
+                <button
+                  name="reply"
+                  class="btn btn-reply bi-reply-fill"
+                ></button>
+
+                <button
+                  name="hide"
+                  class="btn btn-hide bi-eye-slash-fill"
+                ></button>
+
+                <button
+                  name="delete"
+                  class="btn btn-del bi-trash-fill btn-danger"
+                  data-num="4"
+                ></button>
+
+                <button
+                  name="block"
+                  class="btn block-btn bi-person-x-fill"
+                ></button>
+
+                <button
+                  name="mark"
+                  class="btn btn-mark bi-check-lg btn-success"
+                  style="color: #000"
+                ></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overlay -->
+          <div id="overlay" class="overlay hidden"></div>
+          <!-- Comment Transaction -->
+          <div id="comment-content" class="comment-modal hidden">
+            <!-- Comments -->
+            <p id="close-modal-comments" class="close-modal-btn">&times;</p>
+            <p>Comments</p>
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+
+            <div class="comment-wrapper">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Officiis placeat ipsa ratione tenetur fugiat deleniti quas atque
+                dolorum? Odit, commodi neque fugit esse repudiandae voluptates
+                veniam dicta dolorem autem tempora?
+              </p>
+            </div>
+          </div>
+
+          <!-- Reply Comment -->
+          <div class="reply-container">
+            <div id="reply-content" class="reply-modal hidden">
+              <p class="close-modal-btn" id="close-modal-reply">&times;</p>
+              <form action="#" method="#">
+                <textarea
+                  name="reply"
+                  id="reply"
+                  rows="10"
+                  style="resize: none; padding: 9px"
+                  placeholder="Type your reply comment"
+                ></textarea>
+
+                <button id="btn-submit" class="btn btn-green">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav style="margin-top: 80px">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+      </section>
+    </div>
+
+    <script>
+      // Review script
+      const reviewTab = document.getElementById("review-tab");
+      const reviewPageContainer = document.getElementById("review");
+      reviewTab.addEventListener("click", () => {
+        allPageContainer.classList.add("hidden");
+        reviewPageContainer.classList.remove("hidden");
+      });
+
+      // all script
+      const allTab = document.getElementById("all-tab");
+      const allPageContainer = document.getElementById("all");
+      allTab.addEventListener("click", () => {
+        reviewPageContainer.classList.add("hidden");
+        allPageContainer.classList.remove("hidden");
+      });
+
+      // Overlay
+      const overlay = document.getElementById("overlay");
+
+      // Search btn
+      const closeComment = document.getElementById("close-modal-comments");
+      const searchBtn = document.querySelectorAll(".btn-search");
+      const commentModal = document.getElementById("comment-content");
+
+      searchBtn.forEach((search) => {
+        search.addEventListener("click", () => {
+          overlay.classList.remove("hidden");
+          commentModal.classList.remove("hidden");
+        });
+      });
+
+      closeComment.addEventListener("click", () => {
+        commentModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+      });
+
+      // Reply Btn
+      const replyModal = document.getElementById("reply-content");
+      const closeModalComment = document.getElementById("close-modal-reply");
+      const replyBtn = document.querySelectorAll(".btn-reply");
+      replyBtn.forEach((reply) => {
+        reply.addEventListener("click", () => {
+          overlay.classList.remove("hidden");
+          replyModal.classList.remove("hidden");
+        });
+      });
+
+      closeModalComment.addEventListener("click", () => {
+        replyModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+      });
+
+      overlay.addEventListener("click", () => {
+        replyModal.classList.add("hidden");
+        commentModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+      });
+
+      // Submit Reply
+      const submitReplyBtn = document.getElementById("btn-submit");
+      submitReplyBtn.addEventListener("click", () => {
+        // Ajax code
+
+        overlay.classList.add("hidden");
+        replyModal.classList.add("hidden");
+
+        // Message
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Comment Replyed successfully",
+        });
+      });
+
+      // Block btn
+      const blockBtn = document.querySelectorAll(".block-btn");
+      blockBtn.forEach((block) => {
+        block.addEventListener("click", () => {
+          if (block.getAttribute("disable", true)) {
+            block.setAttribute("disable", true);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "User Unblocked successfully",
+            });
+
+            // Ajax
+          } else {
+            block.setAttribute("disable", false);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "User Blocked successfully",
+            });
+
+            // Ajax
+          }
+        });
+      });
+
+      // Like Btn
+      const likeBtn = document.querySelectorAll(".btn-like");
+      likeBtn.forEach((like) => {
+        like.addEventListener("click", () => {
+          if (like.classList.contains("text-blue")) {
+            like.classList.remove("text-blue");
+
+            // Ajax Code
+          } else {
+            like.classList.add("text-blue");
+
+            // Ajax Code
+          }
+        });
+      });
+
+      // Dislike Btn
+      const disLikeBtn = document.querySelectorAll(".btn-dislike");
+      disLikeBtn.forEach((dislike) => {
+        dislike.addEventListener("click", () => {
+          if (dislike.classList.contains("text-blue")) {
+            dislike.classList.remove("text-blue");
+
+            // Ajax Code
+          } else {
+            dislike.classList.add("text-blue");
+
+            // Ajax Code
+          }
+        });
+      });
+
+      // Mark Btn
+      const markBtn = document.querySelectorAll(".btn-mark");
+      markBtn.forEach((mark) => {
+        mark.addEventListener("click", () => {
+          if (mark.classList.contains("text-green")) {
+            mark.classList.remove("text-green");
+
+            // Ajax Code
+          } else {
+            mark.classList.add("text-green");
+
+            // Ajax Code
+          }
+        });
+      });
+
+      // /* // Delete Btn */
+      const delBtn = document.querySelectorAll(".btn-del");
+      delBtn.forEach((del) => {
+        del.addEventListener("click", () => {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              let formContainer = document.querySelectorAll(".form-container");
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+
+              let num = del.getAttribute("data-num");
+
+              let commentContainer = document.getElementById("section-" + num);
+              commentContainer.classList.add("hidden");
+            }
+          });
+        });
+      });
+
+      // Hide Btn
+      const hideBtn = document.querySelectorAll(".btn-hide");
+      hideBtn.forEach((hide) => {
+        hide.addEventListener("click", () => {
+          if (hide.classList.contains("bi-eye-slash-fill")) {
+            hide.classList.remove("bi-eye-slash-fill");
+            hide.classList.add("bi-eye-fill");
+
+            // Ajax Code
+          } else {
+            hide.classList.remove("bi-eye-fill");
+            hide.classList.add("bi-eye-slash-fill");
+
+            // Ajax Code
+          }
+        });
+      });
+    </script>
+
+    <!-- Content Wrapper. Contains page content -->
+
+    <!-- <?php  include'footer.php'; ?> -->
+  </body>
+</html>
